@@ -1,8 +1,10 @@
 import { day1 } from "./questions/day1/day1";
+import { day2 } from "./questions/day2/day2";
 import type { Answer, Question } from "./types/global.types";
 
 const questionMapping: Record<Question, Answer> = {
   day1,
+  day2,
 };
 
 export const run = (question: Question) => {

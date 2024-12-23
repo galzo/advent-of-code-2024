@@ -1,3 +1,3 @@
 import { run } from "./runner";
 
-run("day1");
+run("day2");
