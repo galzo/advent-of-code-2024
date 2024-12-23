@@ -18,7 +18,11 @@ const part2 = () => {
   const { firstList, secondList } = readInput();
   const secondListInstances = buildInstanceMap(secondList);
 
-  return firstList.reduce((res, value) => {}, 0);
+  return firstList.reduce((res, number) => {
+    const instancesOfNumber = secondListInstances.get(number) ?? 0;
+    const value = number * instancesOfNumber;
+    return res + value;
+  }, 0);
 };
 
 export const day1: Answer = {
