@@ -1,0 +1,14 @@
+{
+  "name": "advent-of-code-2024",
+  "module": "app.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "npx bun --watch app.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
