@@ -1,3 +1,3 @@
-import { runQuestion } from "./runner";
+import { run } from "./runner";
 
-runQuestion("day1");
+run("day1");
