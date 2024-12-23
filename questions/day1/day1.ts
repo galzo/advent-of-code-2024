@@ -29,6 +29,7 @@ const __areListsValid = (first: number[], second: number[]) => {
 };
 
 export const day1 = () => {
+  console.log("question 1 part 1");
   const { firstList, secondList } = __readInput();
 
   if (!__areListsValid(firstList, secondList)) {
