@@ -1,13 +1,15 @@
 import type { Answer } from "../../types/global.types";
-import { isReportSafe, readInput } from "./day2.utilts";
+import { readInput, isReportSafe } from "./day2.utilts";
 
 const part1 = () => {
   const reports = readInput();
-  const safeReports = reports.filter(isReportSafe);
+  const safeReports = reports.filter((report) => isReportSafe(report, false));
   return safeReports.length;
 };
 const part2 = () => {
-  return 0;
+  const reports = readInput();
+  const safeReports = reports.filter((report) => isReportSafe(report, true));
+  return safeReports.length;
 };
 
 export const day2: Answer = {
