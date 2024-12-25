@@ -1,4 +1,4 @@
-export type Question = "day1" | "day2";
+export type Question = "day1" | "day2" | "day3";
 
 export type Answer = {
   name: Question;
