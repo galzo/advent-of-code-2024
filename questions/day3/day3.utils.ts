@@ -1,4 +1,4 @@
-import { day3ExampleInput } from "./day3.input";
+import { readMultiLineInput, readSingleLineInput } from "../../common/inputReader";
 
 export const extractValidMulOperations = (input: string): string[] => {
   const regex = /mul\(\d+\,\d+\)/gi;
@@ -6,9 +6,9 @@ export const extractValidMulOperations = (input: string): string[] => {
   return matches;
 };
 
-export const calculateAggregatedOps = (operands: number[][]) => {
-  return operands.reduce((res, [op1, op2]) => {
-    const mulResult = op1 * op2;
+export const calculateMultsSum = (mulOps: number[][]) => {
+  return mulOps.reduce((res, [operand1, operand2]) => {
+    const mulResult = operand1 * operand2;
     return (res += mulResult);
   }, 0);
 };
@@ -19,6 +19,6 @@ export const parseMulOperands = (mulOp: string) => {
   return [Number(res?.[1]), Number(res?.[2])];
 };
 
-export const readInput = () => {
-  return day3ExampleInput;
+export const readDay3Input = async () => {
+  return await readSingleLineInput("./day3.input.txt");
 };

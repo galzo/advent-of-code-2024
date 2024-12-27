@@ -1,12 +1,5 @@
-import { day2Input } from "./day2.input";
+import { readMultiLineInput } from "../../common/inputReader";
 import type { LevelStep } from "./day2.types";
-
-export const __buildInputLists = () => {
-  return day2Input.split("\n").reduce((res, report) => {
-    const levels = report.split(/\s+/).map((level) => Number(level));
-    return [...res, levels];
-  }, [] as number[][]);
-};
 
 const __buildReportLevelSteps = (report: number[]): LevelStep[] => {
   const steps = [];
@@ -61,6 +54,11 @@ export const isReportSafe = (report: number[], enableProblemDampner = false): bo
   return hasTrimmedSafeVersion;
 };
 
-export const readInput = () => {
-  return __buildInputLists();
+export const readDay2Input = async () => {
+  const input = await readMultiLineInput("./day2.input.txt");
+
+  return input.reduce((res, report) => {
+    const levels = report.split(/\s+/).map((level) => Number(level));
+    return [...res, levels];
+  }, [] as number[][]);
 };

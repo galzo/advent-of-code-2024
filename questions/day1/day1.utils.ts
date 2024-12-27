@@ -1,7 +1,7 @@
-import { day1Input } from "./day1.input";
+import { readMultiLineInput } from "./../../common/inputReader";
 
-const __buildInputLists = () => {
-  return day1Input.split("\n").reduce(
+const __buildInputLists = (input: string[]) => {
+  return input.reduce(
     (res, line) => {
       const [firstItem, secondItem] = line.split(/\s+/);
       return {
@@ -20,8 +20,9 @@ export const areListsValid = (first: number[], second: number[]) => {
   return first.length === second.length;
 };
 
-export const readInput = () => {
-  const { firstList, secondList } = __buildInputLists();
+export const readDay1Input = async () => {
+  const input = await readMultiLineInput("./questions/day1/day1.input.txt");
+  const { firstList, secondList } = __buildInputLists(input);
   return {
     firstList: firstList.sort(),
     secondList: secondList.sort(),

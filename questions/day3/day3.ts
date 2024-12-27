@@ -1,19 +1,18 @@
 import type { Answer } from "../../types/global.types";
-import { calculateAggregatedOps, extractValidMulOperations, parseMulOperands, readInput } from "./day3.utils";
+import { calculateMultsSum, extractValidMulOperations, parseMulOperands, readDay3Input } from "./day3.utils";
 
-const part1 = () => {
-  const input = readInput();
+const part1 = async () => {
+  const input = await readDay3Input();
   const mulOps = extractValidMulOperations(input);
   const parsedOps = mulOps.map(parseMulOperands);
-  const result = calculateAggregatedOps(parsedOps);
-  return result;
+  return calculateMultsSum(parsedOps);
 };
-const part2 = () => {
+const part2 = async () => {
   return 0;
 };
 
 export const day3: Answer = {
-  name: "day3",
+  day: 3,
   part1,
   part2,
 };

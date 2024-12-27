@@ -1,29 +1,29 @@
 import { day1 } from "./questions/day1/day1";
 import { day2 } from "./questions/day2/day2";
 import { day3 } from "./questions/day3/day3";
-import type { Answer, Question } from "./types/global.types";
+import type { Answer } from "./types/global.types";
 
-const questionMapping: Record<Question, Answer> = {
-  day1,
-  day2,
-  day3,
+const questionMapping: Record<number, Answer> = {
+  1: day1,
+  2: day2,
+  3: day3,
 };
 
-export const run = (question: Question) => {
-  const answer = questionMapping[question];
+export const run = async (day: number) => {
+  const answer = questionMapping[day];
   __runAnswer(answer);
 };
 
-const __runAnswer = (answer: Answer) => {
-  console.log(`=====${answer.name}=====`);
+const __runAnswer = async (answer: Answer) => {
+  console.log(`=====day${answer.day}=====`);
   __runAnswerPart(1, answer.part1);
   __runAnswerPart(2, answer.part2);
-  console.log(`=====${answer.name}=====`);
+  console.log(`=====day${answer.day}=====`);
 };
 
-const __runAnswerPart = (part: 1 | 2, answer: VoidFunction) => {
+const __runAnswerPart = async (part: 1 | 2, answer: () => Promise<number>) => {
   const timeStart = performance.now();
-  const result = answer();
+  const result = await answer();
   const timeEnd = performance.now();
   console.log(`---part${part}---`);
   console.log("result:", result);

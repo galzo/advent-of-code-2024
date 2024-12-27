@@ -1,9 +1,8 @@
 import type { Answer } from "../../types/global.types";
-import { day1Input } from "./day1.input";
-import { areListsValid, buildInstanceMap, readInput } from "./day1.utils";
+import { areListsValid, buildInstanceMap, readDay1Input } from "./day1.utils";
 
-const part1 = () => {
-  const { firstList, secondList } = readInput();
+const part1 = async () => {
+  const { firstList, secondList } = await readDay1Input();
 
   if (!areListsValid(firstList, secondList)) {
     throw new Error("Invalid lists. input lengths differ");
@@ -14,8 +13,8 @@ const part1 = () => {
   }, 0);
 };
 
-const part2 = () => {
-  const { firstList, secondList } = readInput();
+const part2 = async () => {
+  const { firstList, secondList } = await readDay1Input();
   const secondListInstances = buildInstanceMap(secondList);
 
   return firstList.reduce((res, number) => {
@@ -26,7 +25,7 @@ const part2 = () => {
 };
 
 export const day1: Answer = {
-  name: "day1",
+  day: 1,
   part1,
   part2,
 };

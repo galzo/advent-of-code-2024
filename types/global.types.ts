@@ -1,7 +1,8 @@
-export type Question = "day1" | "day2" | "day3";
-
 export type Answer = {
-  name: Question;
-  part1: () => number;
-  part2: () => number;
+  /**
+   * The day of the question (day1, day2, day3 etc.)
+   */
+  day: number;
+  part1: () => Promise<number>;
+  part2: () => Promise<number>;
 };
