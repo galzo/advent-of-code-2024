@@ -1,3 +1,3 @@
 import { run } from "./runner";
 
-run(1);
+await run(3);

@@ -11,13 +11,13 @@ const questionMapping: Record<number, Answer> = {
 
 export const run = async (day: number) => {
   const answer = questionMapping[day];
-  __runAnswer(answer);
+  await __runAnswer(answer);
 };
 
 const __runAnswer = async (answer: Answer) => {
   console.log(`=====day${answer.day}=====`);
-  __runAnswerPart(1, answer.part1);
-  __runAnswerPart(2, answer.part2);
+  await __runAnswerPart(1, answer.part1);
+  await __runAnswerPart(2, answer.part2);
   console.log(`=====day${answer.day}=====`);
 };
 

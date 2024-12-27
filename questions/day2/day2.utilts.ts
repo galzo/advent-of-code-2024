@@ -1,4 +1,4 @@
-import { readMultiLineInput } from "../../common/inputReader";
+import { readMultiLineInput, resolveInputPathForDay } from "../../common/inputReader";
 import type { LevelStep } from "./day2.types";
 
 const __buildReportLevelSteps = (report: number[]): LevelStep[] => {
@@ -55,7 +55,8 @@ export const isReportSafe = (report: number[], enableProblemDampner = false): bo
 };
 
 export const readDay2Input = async () => {
-  const input = await readMultiLineInput("./day2.input.txt");
+  const path = resolveInputPathForDay(2);
+  const input = await readMultiLineInput(path);
 
   return input.reduce((res, report) => {
     const levels = report.split(/\s+/).map((level) => Number(level));

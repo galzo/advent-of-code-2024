@@ -1,4 +1,4 @@
-import { readMultiLineInput, readSingleLineInput } from "../../common/inputReader";
+import { readMultiLineInput, readSingleLineInput, resolveInputPathForDay } from "../../common/inputReader";
 
 export const extractValidMulOperations = (input: string): string[] => {
   const regex = /mul\(\d+\,\d+\)/gi;
@@ -20,5 +20,6 @@ export const parseMulOperands = (mulOp: string) => {
 };
 
 export const readDay3Input = async () => {
-  return await readSingleLineInput("./day3.input.txt");
+  const path = resolveInputPathForDay(3);
+  return await readSingleLineInput(path);
 };
