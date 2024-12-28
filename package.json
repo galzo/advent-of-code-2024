@@ -3,7 +3,8 @@
   "module": "app.ts",
   "type": "module",
   "scripts": {
-    "dev": "npx bun --watch app.ts"
+    "dev": "npx bun --watch app.ts",
+    "test": "npx bun --watch test"
   },
   "devDependencies": {
     "@types/bun": "latest"

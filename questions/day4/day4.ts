@@ -1,10 +1,11 @@
 import type { Answer } from "../../types/global.types";
-import { readDay4Input } from "./day4.utils";
+import { countXmasOnInput, readDay4Input, reverseInput } from "./day4.utils";
 import { MatrixChecker } from "./matrixChecker";
 
 const part1 = async () => {
   const input = await readDay4Input();
   const matrixChecker = new MatrixChecker(input);
+  console.log(input);
   let xmasCount = 0;
   for (let row = 0; row < input.length; row++) {
     for (let col = 0; col < input.length; col++) {
