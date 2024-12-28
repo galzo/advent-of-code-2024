@@ -1,22 +1,41 @@
 import type { Answer } from "../../types/global.types";
-import { countXmasOnInput, readDay4Input, reverseInput } from "./day4.utils";
-import { MatrixChecker } from "./matrixChecker";
+import {
+  countXmasOnLines,
+  getMatrixCols,
+  getMatrixLeftDiagonals,
+  getMatrixRightDiagonals,
+  getMatrixRows,
+  readDay4Input,
+  reverseLines,
+} from "./day4.utils";
 
 const part1 = async () => {
   const input = await readDay4Input();
-  const matrixChecker = new MatrixChecker(input);
-  console.log(input);
-  let xmasCount = 0;
-  for (let row = 0; row < input.length; row++) {
-    for (let col = 0; col < input.length; col++) {
-      const currentChar = input[row].charAt(col);
-      if (currentChar === "X") {
-        xmasCount += matrixChecker.checkXmasAppearances(row, col);
-      }
-    }
-  }
 
-  return xmasCount;
+  const rows = getMatrixRows(input);
+  const reverseRows = reverseLines(rows);
+
+  const cols = getMatrixCols(input);
+  const reverseCols = reverseLines(cols);
+
+  const leftDiagonals = getMatrixLeftDiagonals(input);
+  const reverseLeftDiagonals = reverseLines(leftDiagonals);
+
+  const rightDiagonals = getMatrixRightDiagonals(input);
+  const reverseRightDiagonals = reverseLines(rightDiagonals);
+
+  const allPossibleLines = [
+    ...rows,
+    ...reverseRows,
+    ...cols,
+    ...reverseCols,
+    ...leftDiagonals,
+    ...reverseLeftDiagonals,
+    ...rightDiagonals,
+    ...reverseRightDiagonals,
+  ];
+
+  return countXmasOnLines(allPossibleLines);
 };
 
 const part2 = async () => {

@@ -1,20 +1,59 @@
-import { readMultiLineInput, readSingleLineInput, resolveInputPathForDay } from "../../common/inputReader";
+import { readMultiLineInput, resolveInputPathForDay } from "../../common/inputReader";
 
 export const readDay4Input = async () => {
-  const path = resolveInputPathForDay(4);
-  const input = await readMultiLineInput(path, "\n");
-  return input;
+  return readMultiLineInput(resolveInputPathForDay(4));
 };
 
-export const countXmasOnInput = (input: string) => {
-  return input.match(/XMAS/g)?.length ?? 0;
+export const getMatrixRows = (matrix: string[]) => matrix;
+
+export const getMatrixCols = (matrix: string[]) => {
+  const cols = [];
+  for (let col = 0; col < matrix[0].length; col++) {
+    cols.push(__resolveColumn(matrix, col));
+  }
+
+  return cols;
 };
 
-export const reverseInput = (input: string) => {
-  return input.split("").reverse().join("");
+export const getMatrixRightDiagonals = (matrix: string[]) => {
+  const diagonals = [];
+  const maxCol = matrix[0].length - 1;
+
+  // Scan all right diagonals on upper half of matrix
+  for (let col = 0; col <= maxCol; col++) {
+    const diagonal = __resolveRightDiagonal(matrix, 0, col);
+    diagonals.push(diagonal);
+  }
+
+  // Scan all right diagonals on lower half of matrix
+  for (let row = 1; row < matrix.length; row++) {
+    const diagonal = __resolveRightDiagonal(matrix, row, 0);
+    diagonals.push(diagonal);
+  }
+
+  return diagonals;
 };
 
-export const resolveColumnFromMatrix = (matrix: string[], col: number) => {
+export const getMatrixLeftDiagonals = (matrix: string[]) => {
+  const diagonals = [];
+  const maxCol = matrix[0].length - 1;
+
+  // Scan all left diagonals on upper half of matrix
+  for (let col = 0; col <= maxCol; col++) {
+    const diagonal = __resolveLeftDiagonal(matrix, 0, col);
+    diagonals.push(diagonal);
+  }
+
+  // Scan all left diagonals on lower half of matrix
+  for (let row = 1; row < matrix.length; row++) {
+    const diagonal = __resolveLeftDiagonal(matrix, row, maxCol);
+    diagonals.push(diagonal);
+  }
+
+  return diagonals;
+};
+
+const __resolveColumn = (matrix: string[], col: number) => {
   const column = [];
   for (let row = 0; row < matrix.length; row++) {
     column.push(matrix[row].charAt(col));
@@ -23,38 +62,12 @@ export const resolveColumnFromMatrix = (matrix: string[], col: number) => {
   return column.join("");
 };
 
-export const resolveRightDiagonalCords = (row: number, col: number, matrix: string[]) => {
-  let diagonalRow = row;
-  let diagonalCol = col;
-
-  while (diagonalRow > 0 && diagonalCol < matrix[row].length - 1) {
-    diagonalRow--;
-    diagonalCol++;
-  }
-
-  return {
-    row: diagonalRow,
-    col: diagonalCol,
-  };
-};
-
-export const resolveLeftDiagonalCords = (row: number, col: number) => {
-  let diagonalRow = row;
-  let diagonalCol = col;
-  while (diagonalRow > 0 && diagonalCol > 0) {
-    diagonalRow--;
-    diagonalCol--;
-  }
-
-  return { row: diagonalRow, col: diagonalCol };
-};
-
-export const resolveLeftDiagonalFromMatrix = (matrix: string[], row: number, col: number) => {
+const __resolveRightDiagonal = (matrix: string[], row: number, col: number) => {
   const diagonal = [];
   let diagonalRow = row;
   let diagonalCol = col;
 
-  while (diagonalRow < matrix.length && diagonalCol < matrix[row].length) {
+  while (diagonalRow < matrix.length && diagonalCol < matrix.length) {
     diagonal.push(matrix[diagonalRow].charAt(diagonalCol));
     diagonalRow++;
     diagonalCol++;
@@ -63,15 +76,33 @@ export const resolveLeftDiagonalFromMatrix = (matrix: string[], row: number, col
   return diagonal.join("");
 };
 
-export const resolveRightDiagonalFromMatrix = (matrix: string[], row: number, col: number) => {
+const __resolveLeftDiagonal = (matrix: string[], row: number, col: number) => {
   const diagonal = [];
   let diagonalRow = row;
   let diagonalCol = col;
-  while (diagonalRow < matrix.length && diagonalCol > 0) {
+
+  while (diagonalRow < matrix.length && diagonalCol >= 0) {
     diagonal.push(matrix[diagonalRow].charAt(diagonalCol));
     diagonalRow++;
     diagonalCol--;
   }
-
   return diagonal.join("");
+};
+
+export const countXmasOnLines = (lines: string[]) => {
+  return lines.reduce((res, line) => {
+    return (res += __countXmasOnLine(line));
+  }, 0);
+};
+
+export const reverseLines = (lines: string[]) => {
+  return lines.map(__reverseLine);
+};
+
+const __countXmasOnLine = (line: string) => {
+  return line.match(/XMAS/g)?.length ?? 0;
+};
+
+const __reverseLine = (line: string) => {
+  return line.split("").reverse().join("");
 };
