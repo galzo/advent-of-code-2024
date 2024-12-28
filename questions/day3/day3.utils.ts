@@ -22,7 +22,7 @@ export const parseMulOperands = (mulOp: string) => {
 export const readDay3Input = async () => {
   const path = resolveInputPathForDay(3);
   const input = await readSingleLineInput(path);
-  return input;
+  return input.replace("\n", "").replace(/\s+/gi, "");
 };
 
 /**
@@ -36,7 +36,7 @@ export const splitUncoditionedPrefix = (input: string): string[] => {
 
 export const removeDontStatements = (input: string): string => {
   // Remove any don't() sections that end with do(), replace them with empty string
-  const dontSectionRegex = /don\'t\(\)(.|\n|\s)*do\(\)/gim;
+  const dontSectionRegex = /don\'t\(\).*?do\(\)/gim;
   const cleanedInput = input.replace(dontSectionRegex, "");
 
   // Make sure that we don't have any don't() section that goes all the way to the end of the string

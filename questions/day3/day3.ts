@@ -20,6 +20,7 @@ const part1 = async () => {
 };
 const part2 = async () => {
   const input = await readDay3Input();
+  console.log(input);
   const [prefix, conditionedOps] = splitUncoditionedPrefix(input);
   const doOpsOnly = removeDontStatements(conditionedOps);
   return __calculateMultsInput(prefix + doOpsOnly);
