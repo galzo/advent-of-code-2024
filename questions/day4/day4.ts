@@ -14,28 +14,21 @@ const part1 = async () => {
 
   const rows = getMatrixRows(input);
   const reverseRows = reverseLines(rows);
+  const xmasCountOnRows = countXmasOnLines([...rows, ...reverseRows]);
 
   const cols = getMatrixCols(input);
   const reverseCols = reverseLines(cols);
+  const xmasCountOnCols = countXmasOnLines([...cols, ...reverseCols]);
 
   const leftDiagonals = getMatrixLeftDiagonals(input);
   const reverseLeftDiagonals = reverseLines(leftDiagonals);
+  const xmasCountOnLeftDiags = countXmasOnLines([...leftDiagonals, ...reverseLeftDiagonals]);
 
   const rightDiagonals = getMatrixRightDiagonals(input);
   const reverseRightDiagonals = reverseLines(rightDiagonals);
+  const xmasCountOnRightDiags = countXmasOnLines([...rightDiagonals, ...reverseRightDiagonals]);
 
-  const allPossibleLines = [
-    ...rows,
-    ...reverseRows,
-    ...cols,
-    ...reverseCols,
-    ...leftDiagonals,
-    ...reverseLeftDiagonals,
-    ...rightDiagonals,
-    ...reverseRightDiagonals,
-  ];
-
-  return countXmasOnLines(allPossibleLines);
+  return xmasCountOnRows + xmasCountOnCols + xmasCountOnLeftDiags + xmasCountOnRightDiags;
 };
 
 const part2 = async () => {
