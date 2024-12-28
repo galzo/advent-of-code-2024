@@ -3,18 +3,17 @@ import { readMultiLineInput, readSingleLineInput, resolveInputPathForDay } from 
 export const readDay4Input = async () => {
   const path = resolveInputPathForDay(4);
   const input = await readMultiLineInput(path, "\n");
+  return input;
 };
 
-const checkRow = (matrix: string[][], row: number, col: number) => {
+export const checkRow = (matrix: string[], row: number) => {
   const currentRow = matrix[row];
-  if (row + 3 >= currentRow.length) return false;
-  return currentRow[row + 1] === "M" && currentRow[row + 2] === "A" && currentRow[row + 3] === "S";
+  return currentRow.includes("XMAS");
 };
 
-const checkReverseRow = (matrix: string[][], row: number, col: number) => {
-  const currentRow = matrix[row];
-  if (row - 3 < 0) return false;
-  return currentRow[row - 1] === "M" && currentRow[row - 2] === "A" && currentRow[row - 3] === "S";
+export const checkReverseRow = (matrix: string[], row: number) => {
+  const currentReversedRow = matrix[row].split("").reverse().join("");
+  return currentReversedRow.includes("XMAS");
 };
 
 const checkColumn = (matrix: string[][], row: number, col: number) => {};
