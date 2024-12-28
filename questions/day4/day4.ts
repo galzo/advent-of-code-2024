@@ -1,9 +1,8 @@
 import type { Answer } from "../../types/global.types";
-import { cleanUnrelevantLetters, readDay4Input } from "./day4.utils";
+import { readDay4Input } from "./day4.utils";
 
 const part1 = async () => {
   const input = await readDay4Input();
-  const cleanedInput = cleanUnrelevantLetters(input);
 
   return 0;
 };
