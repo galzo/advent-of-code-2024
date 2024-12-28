@@ -1,13 +1,13 @@
 import type { Answer } from "../../types/global.types";
+import { readDay4Input } from "./day4.utils";
 import {
   countXmasOnLines,
   getMatrixCols,
   getMatrixLeftDiagonals,
   getMatrixRightDiagonals,
   getMatrixRows,
-  readDay4Input,
   reverseLines,
-} from "./day4.utils";
+} from "./part1.utils";
 
 const part1 = async () => {
   const input = await readDay4Input();
