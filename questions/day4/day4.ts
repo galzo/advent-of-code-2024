@@ -1,6 +1,7 @@
 import type { Answer } from "../../types/global.types";
 import { readDay4Input } from "./day4.utils";
 import {
+  countXmasInstances,
   countXmasOnLines,
   getMatrixCols,
   getMatrixLeftDiagonals,
@@ -8,31 +9,18 @@ import {
   getMatrixRows,
   reverseLines,
 } from "./part1.utils";
+import { countXMasCrosses, isMasInShapeOfX } from "./part2.utils";
 
 const part1 = async () => {
   const input = await readDay4Input();
-
-  const rows = getMatrixRows(input);
-  const reverseRows = reverseLines(rows);
-  const xmasCountOnRows = countXmasOnLines([...rows, ...reverseRows]);
-
-  const cols = getMatrixCols(input);
-  const reverseCols = reverseLines(cols);
-  const xmasCountOnCols = countXmasOnLines([...cols, ...reverseCols]);
-
-  const leftDiagonals = getMatrixLeftDiagonals(input);
-  const reverseLeftDiagonals = reverseLines(leftDiagonals);
-  const xmasCountOnLeftDiags = countXmasOnLines([...leftDiagonals, ...reverseLeftDiagonals]);
-
-  const rightDiagonals = getMatrixRightDiagonals(input);
-  const reverseRightDiagonals = reverseLines(rightDiagonals);
-  const xmasCountOnRightDiags = countXmasOnLines([...rightDiagonals, ...reverseRightDiagonals]);
-
-  return xmasCountOnRows + xmasCountOnCols + xmasCountOnLeftDiags + xmasCountOnRightDiags;
+  const xmasCount = countXmasInstances(input);
+  return xmasCount;
 };
 
 const part2 = async () => {
-  return 0;
+  const input = await readDay4Input();
+  const xmasCount = countXMasCrosses(input);
+  return xmasCount;
 };
 
 export const day4: Answer = {

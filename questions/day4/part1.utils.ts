@@ -1,5 +1,25 @@
 import { readMultiLineInput, resolveInputPathForDay } from "../../common/inputReader";
 
+export const countXmasInstances = (matrix: string[]) => {
+  const rows = getMatrixRows(matrix);
+  const reverseRows = reverseLines(rows);
+  const xmasCountOnRows = countXmasOnLines([...rows, ...reverseRows]);
+
+  const cols = getMatrixCols(matrix);
+  const reverseCols = reverseLines(cols);
+  const xmasCountOnCols = countXmasOnLines([...cols, ...reverseCols]);
+
+  const leftDiagonals = getMatrixLeftDiagonals(matrix);
+  const reverseLeftDiagonals = reverseLines(leftDiagonals);
+  const xmasCountOnLeftDiags = countXmasOnLines([...leftDiagonals, ...reverseLeftDiagonals]);
+
+  const rightDiagonals = getMatrixRightDiagonals(matrix);
+  const reverseRightDiagonals = reverseLines(rightDiagonals);
+  const xmasCountOnRightDiags = countXmasOnLines([...rightDiagonals, ...reverseRightDiagonals]);
+
+  return xmasCountOnRows + xmasCountOnCols + xmasCountOnLeftDiags + xmasCountOnRightDiags;
+};
+
 export const getMatrixRows = (matrix: string[]) => matrix;
 
 export const getMatrixCols = (matrix: string[]) => {
