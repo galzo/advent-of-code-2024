@@ -12,8 +12,8 @@ export class MatrixChecker {
   matrix: string[];
   checkedRows: Set<number> = new Set();
   checkedCols: Set<number> = new Set();
-  checkedLeftDiagonals: Set<{ row: number; col: number }> = new Set();
-  checkedRightDiagonals: Set<{ row: number; col: number }> = new Set();
+  checkedLeftDiagonals: Set<string> = new Set();
+  checkedRightDiagonals: Set<string> = new Set();
 
   constructor(matrix: string[]) {
     this.matrix = matrix;
@@ -57,13 +57,13 @@ export class MatrixChecker {
     // Resolve the top left coordinates of this diagonal, and test
     // if we already checked it.
     const diagonalCords = resolveLeftDiagonalCords(row, col);
-    if (this.checkedLeftDiagonals.has(diagonalCords)) return 0;
+    if (this.checkedLeftDiagonals.has(`${diagonalCords.row}-${diagonalCords.col}`)) return 0;
 
     const currDiagonal = resolveLeftDiagonalFromMatrix(this.matrix, diagonalCords.row, diagonalCords.col);
     const reverseDiagonal = reverseInput(currDiagonal);
 
     const res = countXmasOnInput(currDiagonal) + countXmasOnInput(reverseDiagonal);
-    this.checkedLeftDiagonals.add(diagonalCords);
+    this.checkedLeftDiagonals.add(`${diagonalCords.row}-${diagonalCords.col}`);
 
     return res;
   };
@@ -72,17 +72,13 @@ export class MatrixChecker {
     // Resolve the top right coordinates of this diagonal, and test
     // if we already checked it
     const diagonalCords = resolveRightDiagonalCords(row, col, this.matrix);
-    if (this.checkedRightDiagonals.has(diagonalCords)) return 0;
+    if (this.checkedRightDiagonals.has(`${diagonalCords.row}-${diagonalCords.col}`)) return 0;
 
     const currDiagonal = resolveRightDiagonalFromMatrix(this.matrix, diagonalCords.row, diagonalCords.col);
     const reverseDiagonal = reverseInput(currDiagonal);
 
-    console.log("diag", currDiagonal);
-
     const res = countXmasOnInput(currDiagonal) + countXmasOnInput(reverseDiagonal);
-    this.checkedLeftDiagonals.add(diagonalCords);
-
-    console.log(res);
+    this.checkedRightDiagonals.add(`${diagonalCords.row}-${diagonalCords.col}`);
 
     return res;
   };
