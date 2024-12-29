@@ -3,6 +3,7 @@ import { day2 } from "./questions/day2/day2";
 import { day3 } from "./questions/day3/day3";
 import { day4 } from "./questions/day4/day4";
 import { day5 } from "./questions/day5/day5";
+import { day6 } from "./questions/day6/day6";
 import type { Answer } from "./types/global.types";
 
 const questionMapping: Record<number, Answer> = {
@@ -11,6 +12,7 @@ const questionMapping: Record<number, Answer> = {
   3: day3,
   4: day4,
   5: day5,
+  6: day6,
 };
 
 export const run = async (day: number) => {
