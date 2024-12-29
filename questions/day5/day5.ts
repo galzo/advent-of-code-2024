@@ -1,10 +1,11 @@
 import type { Answer } from "../../types/global.types";
 import {
   buildOrderRulesMapping,
-  checkIfUpdateValid,
+  isUpdateValid,
   extractMidPagesOfUpdates,
   readDay5Input,
   sumPages,
+  fixInvalidUpdate,
 } from "./day5.utils";
 
 export const part1 = async () => {
@@ -12,7 +13,7 @@ export const part1 = async () => {
   const rulesMapping = buildOrderRulesMapping(orderRules);
 
   const validUpdates = updates.filter((update) => {
-    return checkIfUpdateValid(update, rulesMapping);
+    return isUpdateValid(update, rulesMapping);
   });
 
   const validMidPages = extractMidPagesOfUpdates(validUpdates);
@@ -20,7 +21,19 @@ export const part1 = async () => {
 };
 
 export const part2 = async () => {
-  return 0;
+  const { orderRules, updates } = await readDay5Input();
+  const rulesMapping = buildOrderRulesMapping(orderRules);
+
+  const invalidUpdates = updates.filter((update) => {
+    return !isUpdateValid(update, rulesMapping);
+  });
+
+  const fixedUpdates = invalidUpdates.map((update) => {
+    return fixInvalidUpdate(update, rulesMapping);
+  });
+
+  const fixedMidPages = extractMidPagesOfUpdates(fixedUpdates);
+  return sumPages(fixedMidPages);
 };
 
 export const day5: Answer = {

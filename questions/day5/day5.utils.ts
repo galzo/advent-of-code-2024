@@ -11,7 +11,7 @@ export const readDay5Input = async () => {
   };
 };
 
-export const checkIfUpdateValid = (update: number[], orderRules: OrderRuleMapping) => {
+export const isUpdateValid = (update: number[], orderRules: OrderRuleMapping) => {
   for (let i = 0; i < update.length - 1; i++) {
     for (let j = i + 1; j < update.length; j++) {
       const isOrderValid = __checkIfPagesOrderValid(update[i], update[j], orderRules);
@@ -20,6 +20,21 @@ export const checkIfUpdateValid = (update: number[], orderRules: OrderRuleMappin
   }
 
   return true;
+};
+
+export const fixInvalidUpdate = (update: number[], orderRules: OrderRuleMapping) => {
+  const fixedUpdate = [...update];
+
+  for (let i = 0; i < update.length - 1; i++) {
+    for (let j = i + 1; j < update.length; j++) {
+      const isOrderValid = __checkIfPagesOrderValid(fixedUpdate[i], fixedUpdate[j], orderRules);
+      if (!isOrderValid) {
+        [fixedUpdate[i], fixedUpdate[j]] = [fixedUpdate[j], fixedUpdate[i]];
+      }
+    }
+  }
+
+  return fixedUpdate;
 };
 
 export const extractMidPagesOfUpdates = (updates: number[][]) => {
