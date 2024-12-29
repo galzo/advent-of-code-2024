@@ -27,6 +27,8 @@ export const fixInvalidUpdate = (update: number[], orderRules: OrderRuleMapping)
 
   for (let i = 0; i < update.length - 1; i++) {
     for (let j = i + 1; j < update.length; j++) {
+      // Check if the pages order is invalid, and if so - simply swap them.
+      // this will fix the update
       const isOrderValid = __checkIfPagesOrderValid(fixedUpdate[i], fixedUpdate[j], orderRules);
       if (!isOrderValid) {
         [fixedUpdate[i], fixedUpdate[j]] = [fixedUpdate[j], fixedUpdate[i]];
@@ -55,7 +57,7 @@ const __checkIfPagesOrderValid = (beforePage: number, afterPage: number, orderRu
   const afterPageRules = orderRules.get(afterPage);
   if (afterPageRules?.has(beforePage)) return false;
 
-  throw new Error("not supposed to happen WTF");
+  throw new Error("not supposed to happen so i'm here just to be mad if i fucked something up and an error is raised");
 };
 
 export const buildOrderRulesMapping = (rules: number[][]) => {
