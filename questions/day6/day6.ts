@@ -1,10 +1,12 @@
 import type { Answer } from "../../types/global.types";
-import { parseInputMap, readDay6Input } from "./day6.utils";
+import { parseMapGuard, parseMapTiles, readDay6Input } from "./day6.utils";
+import { TopdownMap } from "./map";
 
 export const part1 = async () => {
   const input = await readDay6Input();
-  const map = parseInputMap(input);
-  console.log(map);
+  const tiles = parseMapTiles(input);
+  const guard = parseMapGuard(input);
+  const map = new TopdownMap(tiles, guard);
 
   return 0;
 };
