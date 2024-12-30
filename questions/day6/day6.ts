@@ -12,8 +12,11 @@ export const part1 = async () => {
     console.clear();
     console.log(map.tiles);
     map.performNextStep();
-    await Bun.sleep(500);
+    await Bun.sleep(100);
   }
+
+  const visitedTileIndices = map.getVisitedTilesIndices();
+  console.log(visitedTileIndices);
 
   return map.countVisitedTiles();
 };

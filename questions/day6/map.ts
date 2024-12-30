@@ -58,4 +58,8 @@ export class TopdownMap {
   public countVisitedTiles = () => {
     return this.tiles.getFlattenedValues((tile) => tile.isVisited).length;
   };
+
+  public getVisitedTilesIndices = () => {
+    return this.tiles.getFlattenedIndices((tile) => tile.isVisited);
+  };
 }

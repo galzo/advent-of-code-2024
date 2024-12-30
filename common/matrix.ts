@@ -22,6 +22,21 @@ export class Matrix<T> {
     }, []);
   };
 
+  public getFlattenedIndices = (predicate: (cell: T) => boolean): Array<{ row: number; col: number }> => {
+    const filteredIndices = new Array<{ row: number; col: number }>();
+
+    for (let row = 0; row < this.data.length; row++) {
+      for (let col = 0; col < this.data[0].length; col++) {
+        const currentCell = this.getCell(row, col);
+        if (!predicate || predicate(currentCell)) {
+          filteredIndices.push({ row, col });
+        }
+      }
+    }
+
+    return filteredIndices;
+  };
+
   public isInMatrixBounds = (row: number, col: number) => {
     if (row < 0 || row >= this.data.length) return false;
     if (col < 0 || col >= this.data[0].length) return false;
