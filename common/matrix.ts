@@ -15,9 +15,9 @@ export class Matrix<T> {
     this.data[row][col] = value;
   };
 
-  public getFlattenedValues = (predicate: (cell: T) => boolean): T[] => {
+  public getFlattenedValues = (predicate?: (cell: T) => boolean): T[] => {
     return this.data.reduce((res, row) => {
-      const filteredRow = row.filter(predicate);
+      const filteredRow = predicate ? row.filter(predicate) : row;
       return [...res, ...filteredRow];
     }, []);
   };

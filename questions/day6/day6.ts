@@ -9,7 +9,10 @@ export const part1 = async () => {
   const map = new TopdownMap(tiles, guard);
 
   while (map.isGuardOnBoard()) {
+    console.clear();
+    console.log(map.tiles);
     map.performNextStep();
+    await Bun.sleep(500);
   }
 
   return map.countVisitedTiles();

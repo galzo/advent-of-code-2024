@@ -1,6 +1,11 @@
 import type { Matrix } from "../../common/matrix";
 import type { Guard } from "./day6.types";
-import { resolveGuardRotateDirection, resolveNextGuardCol, resolveNextGuardRow } from "./day6.utils";
+import {
+  resolveGuardRotateDirection,
+  resolveNextGuardCol,
+  resolveNextGuardRow,
+  resolveTileVisitDirection,
+} from "./day6.utils";
 import type { MapTile } from "./mapTile";
 
 export class TopdownMap {
@@ -31,6 +36,7 @@ export class TopdownMap {
     const isStillInBounds = this.isGuardOnBoard();
     if (isStillInBounds) {
       const steppedTile = this.tiles.getCell(this.guard.row, this.guard.col);
+      steppedTile.guardVisitDirection = resolveTileVisitDirection(steppedTile, this.guard);
       steppedTile.isVisited = true;
     }
   };
