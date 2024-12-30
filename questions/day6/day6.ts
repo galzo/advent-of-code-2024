@@ -8,7 +8,11 @@ export const part1 = async () => {
   const guard = parseMapGuard(input);
   const map = new TopdownMap(tiles, guard);
 
-  return 0;
+  while (map.isGuardOnBoard()) {
+    map.performNextStep();
+  }
+
+  return map.countVisitedTiles();
 };
 
 export const part2 = async () => {

@@ -8,11 +8,18 @@ export class Matrix<T> {
   }
 
   public getCell = (row: number, col: number): T => {
-    return this.data[row][col];
+    return this.data?.[row]?.[col];
   };
 
   public setCell = (row: number, col: number, value: T) => {
     this.data[row][col] = value;
+  };
+
+  public getFlattenedValues = (predicate: (cell: T) => boolean): T[] => {
+    return this.data.reduce((res, row) => {
+      const filteredRow = row.filter(predicate);
+      return [...res, ...filteredRow];
+    }, []);
   };
 
   public isInMatrixBounds = (row: number, col: number) => {

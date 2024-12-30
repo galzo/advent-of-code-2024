@@ -1,5 +1,6 @@
 import type { Matrix } from "../../common/matrix";
 import type { Guard } from "./day6.types";
+import { resolveGuardRotateDirection, resolveNextGuardCol, resolveNextGuardRow } from "./day6.utils";
 import type { MapTile } from "./mapTile";
 
 export class TopdownMap {
@@ -11,34 +12,44 @@ export class TopdownMap {
     this.guard = guard;
   }
 
-  public checkNextGuardStep = () => {
-    const nextRow = this.resolveNextGuardRow();
-    const nextCol = this.resolveNextGuardCol();
+  private canStepOnNextTile = () => {
+    const nextRow = resolveNextGuardRow(this.guard);
+    const nextCol = resolveNextGuardCol(this.guard);
+
+    const nextTile = this.tiles.getCell(nextRow, nextCol);
+    return !nextTile?.isBlock;
   };
 
-  private resolveNextGuardRow = () => {
-    switch (this.guard.direction) {
-      case "right":
-      case "left":
-        return this.guard.row;
-      case "down":
-        return this.guard.row + 1;
-      case "up":
-      default:
-        return this.guard.row - 1;
+  private rotateGuard = () => {
+    this.guard.direction = resolveGuardRotateDirection(this.guard);
+  };
+
+  private moveGuard = () => {
+    this.guard.row = resolveNextGuardRow(this.guard);
+    this.guard.col = resolveNextGuardCol(this.guard);
+
+    const isStillInBounds = this.isGuardOnBoard();
+    if (isStillInBounds) {
+      const steppedTile = this.tiles.getCell(this.guard.row, this.guard.col);
+      steppedTile.isVisited = true;
     }
   };
 
-  private resolveNextGuardCol = () => {
-    switch (this.guard.direction) {
-      case "down":
-      case "up":
-        return this.guard.col;
-      case "left":
-        return this.guard.col - 1;
-      case "right":
-      default:
-        return this.guard.col + 1;
+  public isGuardOnBoard = () => {
+    return this.tiles.isInMatrixBounds(this.guard.row, this.guard.col);
+  };
+
+  public performNextStep = () => {
+    let canPerformNextStep = this.canStepOnNextTile();
+    while (!canPerformNextStep) {
+      this.rotateGuard();
+      canPerformNextStep = this.canStepOnNextTile();
     }
+
+    this.moveGuard();
+  };
+
+  public countVisitedTiles = () => {
+    return this.tiles.getFlattenedValues((tile) => tile.isVisited).length;
   };
 }
