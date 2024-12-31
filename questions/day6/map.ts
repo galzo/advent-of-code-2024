@@ -1,11 +1,12 @@
 import type { Matrix } from "../../common/matrix";
 import type { Guard } from "./day6.types";
+import {} from "./day6.utils";
 import {
   resolveGuardRotateDirection,
   resolveNextGuardCol,
   resolveNextGuardRow,
   resolveTileVisitDirection,
-} from "./day6.utils";
+} from "./map.utils";
 import type { MapTile } from "./mapTile";
 
 export class TopdownMap {
@@ -30,14 +31,38 @@ export class TopdownMap {
   };
 
   private moveGuard = () => {
+    const currentTile = this.tiles.getCell(this.guard.row, this.guard.col);
+
     this.guard.row = resolveNextGuardRow(this.guard);
     this.guard.col = resolveNextGuardCol(this.guard);
+    currentTile.isGuardHere = false;
 
     const isStillInBounds = this.isGuardOnBoard();
     if (isStillInBounds) {
       const steppedTile = this.tiles.getCell(this.guard.row, this.guard.col);
       steppedTile.guardVisitDirection = resolveTileVisitDirection(steppedTile, this.guard);
-      steppedTile.isVisited = true;
+      steppedTile.isGuardHere = true;
+      steppedTile.guardVisits += 1;
+    }
+  };
+
+  public resetMap = (tiles: Matrix<MapTile>, guard: Guard) => {
+    this.tiles = this.tiles;
+    this.guard = guard;
+  };
+
+  public runSimulation = async (printSimulation: boolean) => {
+    while (this.isGuardOnBoard()) {
+      if (printSimulation) {
+        console.clear();
+        console.log(this.tiles);
+      }
+
+      this.performNextStep();
+
+      if (printSimulation) {
+        await Bun.sleep(100);
+      }
     }
   };
 
@@ -56,10 +81,10 @@ export class TopdownMap {
   };
 
   public countVisitedTiles = () => {
-    return this.tiles.getFlattenedValues((tile) => tile.isVisited).length;
+    return this.tiles.getFlattenedValues((tile) => tile.guardVisits > 0).length;
   };
 
   public getVisitedTilesIndices = () => {
-    return this.tiles.getFlattenedIndices((tile) => tile.isVisited);
+    return this.tiles.getFlattenedIndices((tile) => tile.guardVisits > 0);
   };
 }

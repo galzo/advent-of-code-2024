@@ -3,18 +3,21 @@ import type { GuardDirection } from "./day6.types";
 
 export class MapTile {
   isBlock: boolean;
-  isVisited: boolean;
+  isGuardHere: boolean;
+  guardVisits: number;
   guardVisitDirection: GuardDirection | "cross";
 
-  constructor(isBlock: boolean, isVisited: boolean, visitDirection?: GuardDirection) {
+  constructor(isBlock: boolean, isGuardHere: boolean, visitDirection: GuardDirection = "up") {
     this.isBlock = isBlock;
-    this.isVisited = isVisited;
-    this.guardVisitDirection = visitDirection ?? "up";
+    this.isGuardHere = isGuardHere;
+    this.guardVisits = isGuardHere ? 1 : 0;
+    this.guardVisitDirection = visitDirection;
   }
 
   [util.inspect.custom]() {
     if (this.isBlock) return "#";
-    if (!this.isVisited) return ".";
+    if (this.isGuardHere) return "X";
+    if (!this.guardVisits) return ".";
 
     switch (this.guardVisitDirection) {
       case "cross":
@@ -31,7 +34,8 @@ export class MapTile {
 
   toString() {
     if (this.isBlock) return "#";
-    if (!this.isVisited) return ".";
+    if (this.isGuardHere) return "X";
+    if (!this.guardVisits) return ".";
 
     switch (this.guardVisitDirection) {
       case "cross":
