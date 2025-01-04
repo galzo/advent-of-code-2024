@@ -1,22 +1,21 @@
 import util from "util";
-import type { GuardDirection } from "./day6.types";
+import type { GuardDirection, MapTileType } from "./day6.types";
 
 export class MapTile {
-  isBlock: boolean;
-  isGuardHere: boolean;
+  type: MapTileType;
   guardVisits: number;
   guardVisitDirection: GuardDirection | "cross";
 
-  constructor(isBlock: boolean, isGuardHere: boolean, visitDirection: GuardDirection = "up") {
-    this.isBlock = isBlock;
-    this.isGuardHere = isGuardHere;
-    this.guardVisits = isGuardHere ? 1 : 0;
-    this.guardVisitDirection = visitDirection;
+  constructor(type: MapTileType) {
+    this.type = type;
+    this.guardVisits = type === "guard" ? 1 : 0;
+    this.guardVisitDirection = "up";
   }
 
   [util.inspect.custom]() {
-    if (this.isBlock) return "#";
-    if (this.isGuardHere) return "X";
+    if (this.type === "guard") return "X";
+    if (this.type === "block") return "#";
+    if (this.type === "userBlock") return "O";
     if (!this.guardVisits) return ".";
 
     switch (this.guardVisitDirection) {
@@ -33,8 +32,9 @@ export class MapTile {
   }
 
   toString() {
-    if (this.isBlock) return "#";
-    if (this.isGuardHere) return "X";
+    if (this.type === "guard") return "X";
+    if (this.type === "block") return "#";
+    if (this.type === "userBlock") return "O";
     if (!this.guardVisits) return ".";
 
     switch (this.guardVisitDirection) {

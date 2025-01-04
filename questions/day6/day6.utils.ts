@@ -1,6 +1,9 @@
-import { readMultiLineInput, resolveInputPathForDay } from "../../common/inputReader";
+import {
+  readMultiLineInput,
+  resolveInputPathForDay,
+} from "../../common/inputReader";
 import { buildMatrixFromData, Matrix } from "../../common/matrix";
-import type { Guard } from "./day6.types";
+import type { Guard, MapTileType, TileCoordinates } from "./day6.types";
 import type { TopdownMap } from "./map";
 import { MapTile } from "./mapTile";
 
@@ -8,12 +11,12 @@ export const readDay6Input = async () => {
   return await readMultiLineInput(resolveInputPathForDay(6));
 };
 
-export const parseInputTiles = (input: string[]): Matrix<MapTile> => {
+export const buildMatrixFromInput = (input: string[]): Matrix<MapTile> => {
   const tiles = input.map(__buildMapTiles);
   return buildMatrixFromData(tiles);
 };
 
-export const parseInputGuard = (input: string[]): Guard => {
+export const buildGuardFromInput = (input: string[]): Guard => {
   for (let row = 0; row < input.length; row++) {
     for (let col = 0; col < input[0].length; col++) {
       if (input[row][col] === "^") {
@@ -31,8 +34,21 @@ export const parseInputGuard = (input: string[]): Guard => {
 
 const __buildMapTiles = (line: string): MapTile[] => {
   return line.split("").map((value) => {
-    const isBlock = value === "#";
-    const isGuard = value === "^";
-    return new MapTile(isBlock, isGuard);
+    const type = __resolveTileType(value);
+    return new MapTile(type);
   });
+};
+
+const __resolveTileType = (value: string): MapTileType => {
+  switch (value) {
+    case "#":
+      return "block";
+    case "^":
+      return "guard";
+    case "O":
+      return "userBlock";
+    case ".":
+    default:
+      return "tile";
+  }
 };

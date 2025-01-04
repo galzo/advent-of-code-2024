@@ -23,7 +23,9 @@ export class TopdownMap {
     const nextCol = resolveNextGuardCol(this.guard);
 
     const nextTile = this.tiles.getCell(nextRow, nextCol);
-    return !nextTile?.isBlock;
+    const isNextTileBlock =
+      nextTile?.type === "block" || nextTile?.type === "userBlock";
+    return !isNextTileBlock;
   };
 
   private rotateGuard = () => {
@@ -32,22 +34,25 @@ export class TopdownMap {
 
   private moveGuard = () => {
     const currentTile = this.tiles.getCell(this.guard.row, this.guard.col);
+    currentTile.type = "tile";
 
     this.guard.row = resolveNextGuardRow(this.guard);
     this.guard.col = resolveNextGuardCol(this.guard);
-    currentTile.isGuardHere = false;
 
     const isStillInBounds = this.isGuardOnBoard();
     if (isStillInBounds) {
       const steppedTile = this.tiles.getCell(this.guard.row, this.guard.col);
-      steppedTile.guardVisitDirection = resolveTileVisitDirection(steppedTile, this.guard);
-      steppedTile.isGuardHere = true;
+      steppedTile.guardVisitDirection = resolveTileVisitDirection(
+        steppedTile,
+        this.guard
+      );
+      steppedTile.type = "guard";
       steppedTile.guardVisits += 1;
     }
   };
 
   public resetMap = (tiles: Matrix<MapTile>, guard: Guard) => {
-    this.tiles = this.tiles;
+    this.tiles = tiles;
     this.guard = guard;
   };
 

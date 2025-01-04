@@ -1,5 +1,11 @@
-import type { Guard } from "./day6.types";
+import type { Guard, TileCoordinates } from "./day6.types";
+import type { TopdownMap } from "./map";
 import type { MapTile } from "./mapTile";
+
+export const setBlockOnMap = (block: TileCoordinates, map: TopdownMap) => {
+  const currentCell = map.tiles.getCell(block.row, block.col);
+  currentCell.type = "userBlock";
+};
 
 export const resolveNextGuardCol = (guard: Guard) => {
   switch (guard.direction) {
