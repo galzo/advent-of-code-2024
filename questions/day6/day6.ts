@@ -12,7 +12,7 @@ export const part1 = async () => {
   const guard = buildGuardFromInput(input);
 
   const map = new TopdownMap(tiles, guard);
-  await map.runSimulation(true);
+  await map.runSimulation(false);
 
   return map.countVisitedTiles();
 };

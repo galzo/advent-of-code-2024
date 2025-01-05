@@ -16,6 +16,13 @@ export const buildMatrixFromInput = (input: string[]): Matrix<MapTile> => {
   return buildMatrixFromData(tiles);
 };
 
+export const testCustomBlock = (
+  blockToSet: TileCoordinates,
+  map: TopdownMap
+) => {
+  map.tiles.setCell(blockToSet.row, blockToSet.col, new MapTile("userBlock"));
+};
+
 export const buildGuardFromInput = (input: string[]): Guard => {
   for (let row = 0; row < input.length; row++) {
     for (let col = 0; col < input[0].length; col++) {

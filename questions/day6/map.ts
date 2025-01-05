@@ -71,9 +71,13 @@ export class TopdownMap {
     }
   };
 
+  public runSimulationLoopy = (printSim: boolean) => {};
+
   public isGuardOnBoard = () => {
     return this.tiles.isInMatrixBounds(this.guard.row, this.guard.col);
   };
+
+  public isGuardInLoop = () => {};
 
   public performNextStep = () => {
     let canPerformNextStep = this.canStepOnNextTile();
