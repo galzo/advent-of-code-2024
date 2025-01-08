@@ -31,16 +31,18 @@ export const part2 = async () => {
   await runMapSimulation(map);
   const guardVisitPositions = map.getVisitedTilesIndices();
 
+  // Test every visited position of the guard, by placing on that coordinate
+  // a block, and running the simulation from the start. if the guard is stuck in a loop
+  // in that simulation - mark it.
   const results = await Promise.all(
     guardVisitPositions.map(async (visitPos) => {
-      console.log(visitPos);
       const map = new TopdownMap(tiles, guard);
       map.setUserBlock(visitPos.row, visitPos.col);
-
       return runMapSimulationWithLoopDetection(map);
     })
   );
 
+  // Return all coordinates that caused a loop in the map
   const blocksWithLoop = results.filter((isInLoop) => isInLoop).length;
   return blocksWithLoop;
 };
