@@ -1,4 +1,4 @@
-import type { Guard, TileCoordinates } from "./day6.types";
+import type { Guard, TileCoordinates } from "../day6.types";
 import type { TopdownMap } from "./map";
 import type { MapTile } from "./mapTile";
 
@@ -11,12 +11,12 @@ export const resolveNextGuardCol = (guard: Guard) => {
   switch (guard.direction) {
     case "down":
     case "up":
-      return guard.col;
+      return guard.currentPosition.col;
     case "left":
-      return guard.col - 1;
+      return guard.currentPosition.col - 1;
     case "right":
     default:
-      return guard.col + 1;
+      return guard.currentPosition.col + 1;
   }
 };
 
@@ -24,12 +24,12 @@ export const resolveNextGuardRow = (guard: Guard) => {
   switch (guard.direction) {
     case "right":
     case "left":
-      return guard.row;
+      return guard.currentPosition.row;
     case "down":
-      return guard.row + 1;
+      return guard.currentPosition.row + 1;
     case "up":
     default:
-      return guard.row - 1;
+      return guard.currentPosition.row - 1;
   }
 };
 

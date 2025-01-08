@@ -1,15 +1,18 @@
 import type { Answer } from "../../types/global.types";
 import {
   buildGuardFromInput,
-  buildMatrixFromInput,
+  buildTilesFromInput,
   readDay6Input,
 } from "./input/inputReader";
 import { TopdownMap } from "./map/map";
-import { runMapSimulation } from "./simulator/simulator";
+import {
+  runMapSimulation,
+  runMapSimulationWithLoopDetection,
+} from "./simulator/simulator";
 
 export const part1 = async () => {
   const input = await readDay6Input();
-  const tiles = buildMatrixFromInput(input);
+  const tiles = buildTilesFromInput(input);
   const guard = buildGuardFromInput(input);
 
   const map = new TopdownMap(tiles, guard);
@@ -20,19 +23,26 @@ export const part1 = async () => {
 
 export const part2 = async () => {
   const input = await readDay6Input();
-  const tiles = buildMatrixFromInput(input);
+  const tiles = buildTilesFromInput(input);
   const guard = buildGuardFromInput(input);
 
+  // Perform initial run of the guard, extract its visit coordinates
   const map = new TopdownMap(tiles, guard);
   await runMapSimulation(map);
-  const originalVisitCords = map.getVisitedTilesIndices();
+  const guardVisitPositions = map.getVisitedTilesIndices();
 
-  await map.runSimulation(false);
-  // const originalVisitCords = map.getVisitedTilesIndices();
-  // console.log(originalVisitCords);
-  // map.resetMap(tiles, guard);
-  // return 0;
-  return 0;
+  const results = await Promise.all(
+    guardVisitPositions.map(async (visitPos) => {
+      console.log(visitPos);
+      const map = new TopdownMap(tiles, guard);
+      map.setUserBlock(visitPos.row, visitPos.col);
+
+      return runMapSimulationWithLoopDetection(map);
+    })
+  );
+
+  const blocksWithLoop = results.filter((isInLoop) => isInLoop).length;
+  return blocksWithLoop;
 };
 
 export const day6: Answer = {

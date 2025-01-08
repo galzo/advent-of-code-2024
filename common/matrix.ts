@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash";
 import util from "util";
 
 export class Matrix<T> {
@@ -22,7 +23,9 @@ export class Matrix<T> {
     }, []);
   };
 
-  public getFlattenedIndices = (predicate: (cell: T) => boolean): Array<{ row: number; col: number }> => {
+  public getFlattenedIndices = (
+    predicate: (cell: T) => boolean
+  ): Array<{ row: number; col: number }> => {
     const filteredIndices = new Array<{ row: number; col: number }>();
 
     for (let row = 0; row < this.data.length; row++) {
@@ -47,9 +50,9 @@ export class Matrix<T> {
    * Override console.log representation, for better readability when printing a matrix
    */
   [util.inspect.custom]() {
-    return `rows: ${this.data.length}, cols: ${this.data[0].length}\n\n${this.data
-      .map((row) => row.join(" "))
-      .join("\n")}`;
+    return `rows: ${this.data.length}, cols: ${
+      this.data[0].length
+    }\n\n${this.data.map((row) => row.join(" ")).join("\n")}`;
   }
 
   public toString() {
@@ -58,10 +61,14 @@ export class Matrix<T> {
 }
 
 export const buildMatrixFromData = <T>(data: T[][]) => {
-  return new Matrix(data);
+  return new Matrix(cloneDeep(data));
 };
 
-export const buildMatrixFromValue = <T>(rows: number, cols: number, value: T) => {
+export const buildMatrixFromValue = <T>(
+  rows: number,
+  cols: number,
+  value: T
+) => {
   const data = Array.from({ length: rows }).map(() => {
     return Array.from({ length: cols }).fill(value);
   });
@@ -75,7 +82,9 @@ export const buildMatrixFromFunction = <T>(
   valueFunction: (row: number, col: number) => T
 ) => {
   const data = Array.from({ length: rows }).map((_, row) => {
-    return Array.from({ length: cols }).map((_, col) => valueFunction(row, col));
+    return Array.from({ length: cols }).map((_, col) =>
+      valueFunction(row, col)
+    );
   });
 
   return new Matrix(data);

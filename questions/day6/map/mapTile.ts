@@ -1,5 +1,5 @@
 import util from "util";
-import type { GuardDirection, MapTileType } from "./day6.types";
+import type { GuardDirection, MapTileType } from "../day6.types";
 
 export class MapTile {
   type: MapTileType;

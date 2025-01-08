@@ -18,7 +18,7 @@ export const runMapSimulation = async (
   }
 };
 
-export const runMapSimulationWithLoop = async (
+export const runMapSimulationWithLoopDetection = async (
   map: TopdownMap,
   printSimulation: boolean = false
 ) => {
@@ -27,7 +27,15 @@ export const runMapSimulationWithLoop = async (
       console.clear();
       console.log(map.tiles);
     }
+
+    __performSimulationStep(map);
+
+    if (printSimulation) {
+      await Bun.sleep(100);
+    }
   }
+
+  return map.loopDetected;
 };
 
 const __performSimulationStep = (map: TopdownMap) => {

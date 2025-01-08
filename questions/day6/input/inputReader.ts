@@ -4,16 +4,15 @@ import {
 } from "../../../common/inputReader";
 import { buildMatrixFromData, Matrix } from "../../../common/matrix";
 import type { Guard, MapTileType, TileCoordinates } from "../day6.types";
-import type { TopdownMap } from "./map";
-import { MapTile } from "./mapTile";
+import type { TopdownMap } from "../map/map";
+import { MapTile } from "../map/mapTile";
 
 export const readDay6Input = async () => {
-  return await readMultiLineInput(resolveInputPathForDay(6));
+  return await readMultiLineInput("./questions/day6/input/day6.input.txt");
 };
 
-export const buildMatrixFromInput = (input: string[]): Matrix<MapTile> => {
-  const tiles = input.map(__buildMapTiles);
-  return buildMatrixFromData(tiles);
+export const buildTilesFromInput = (input: string[]): MapTile[][] => {
+  return input.map(__buildMapTiles);
 };
 
 export const testCustomBlock = (
@@ -28,8 +27,8 @@ export const buildGuardFromInput = (input: string[]): Guard => {
     for (let col = 0; col < input[0].length; col++) {
       if (input[row][col] === "^") {
         return {
-          row: row,
-          col: col,
+          startPosition: { row, col },
+          currentPosition: { row, col },
           direction: "up",
         };
       }

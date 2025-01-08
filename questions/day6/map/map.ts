@@ -1,5 +1,5 @@
-import type { Matrix } from "../../../common/matrix";
-import type { Guard } from "../day6.types";
+import { buildMatrixFromData, type Matrix } from "../../../common/matrix";
+import type { Guard, TileCoordinates } from "../day6.types";
 import {
   resolveGuardRotateDirection,
   resolveNextGuardCol,
@@ -9,13 +9,12 @@ import type { MapTile } from "./mapTile";
 
 export class TopdownMap {
   tiles: Matrix<MapTile>;
-  loopDetected: boolean;
   guard: Guard;
+  loopDetected: boolean = false;
 
-  constructor(tiles: Matrix<MapTile>, guard: Guard) {
-    this.tiles = tiles;
-    this.guard = guard;
-    this.loopDetected = false;
+  constructor(tiles: MapTile[][], guard: Guard) {
+    this.tiles = buildMatrixFromData(tiles);
+    this.guard = { ...guard };
   }
 
   public isGuardBlocked = () => {
@@ -31,19 +30,28 @@ export class TopdownMap {
   };
 
   public moveGuard = () => {
-    const currentTile = this.tiles.getCell(this.guard.row, this.guard.col);
+    const currentTile = this.tiles.getCell(
+      this.guard.currentPosition.row,
+      this.guard.currentPosition.col
+    );
     currentTile.type = "tile";
 
-    this.guard.row = resolveNextGuardRow(this.guard);
-    this.guard.col = resolveNextGuardCol(this.guard);
+    this.guard.currentPosition = {
+      row: resolveNextGuardRow(this.guard),
+      col: resolveNextGuardCol(this.guard),
+    };
 
     const isStillInBounds = this.isGuardOnBoard();
     if (!isStillInBounds) return;
 
-    const steppedTile = this.tiles.getCell(this.guard.row, this.guard.col);
-    this.loopDetected = this.isGuardInALoop(steppedTile);
+    const steppedTile = this.tiles.getCell(
+      this.guard.currentPosition.row,
+      this.guard.currentPosition.col
+    );
 
+    this.loopDetected = this.isGuardInALoop(steppedTile);
     steppedTile.type = "guard";
+    steppedTile.lastGuardVisitDirection = this.guard.direction;
     steppedTile.guardVisits += 1;
   };
 
@@ -57,7 +65,10 @@ export class TopdownMap {
   };
 
   public isGuardOnBoard = () => {
-    return this.tiles.isInMatrixBounds(this.guard.row, this.guard.col);
+    return this.tiles.isInMatrixBounds(
+      this.guard.currentPosition.row,
+      this.guard.currentPosition.col
+    );
   };
 
   public countVisitedTiles = () => {
@@ -65,6 +76,13 @@ export class TopdownMap {
   };
 
   public getVisitedTilesIndices = () => {
+    // Fetch all tiles that the guard visited in, except for it starting position
+    // (since the starting position is not considered a location visited)
     return this.tiles.getFlattenedIndices((tile) => tile.guardVisits > 0);
+  };
+
+  public setUserBlock = (row: number, col: number) => {
+    const tile = this.tiles.getCell(row, col);
+    tile.type = "userBlock";
   };
 }

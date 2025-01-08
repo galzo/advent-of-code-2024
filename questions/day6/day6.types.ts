@@ -1,6 +1,8 @@
 export type GuardDirection = "up" | "down" | "left" | "right";
-export type Guard = TileCoordinates & {
+export type Guard = {
   direction: GuardDirection;
+  currentPosition: TileCoordinates;
+  startPosition: TileCoordinates;
 };
 
 export type TileCoordinates = {
