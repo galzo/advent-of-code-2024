@@ -3,8 +3,9 @@ import {
   buildGuardFromInput,
   buildMatrixFromInput,
   readDay6Input,
-} from "./day6.utils";
-import { TopdownMap } from "./map";
+} from "./input/inputReader";
+import { TopdownMap } from "./map/map";
+import { runMapSimulation } from "./simulator/simulator";
 
 export const part1 = async () => {
   const input = await readDay6Input();
@@ -12,7 +13,7 @@ export const part1 = async () => {
   const guard = buildGuardFromInput(input);
 
   const map = new TopdownMap(tiles, guard);
-  await map.runSimulation(false);
+  await runMapSimulation(map);
 
   return map.countVisitedTiles();
 };
@@ -21,13 +22,16 @@ export const part2 = async () => {
   const input = await readDay6Input();
   const tiles = buildMatrixFromInput(input);
   const guard = buildGuardFromInput(input);
+
   const map = new TopdownMap(tiles, guard);
+  await runMapSimulation(map);
+  const originalVisitCords = map.getVisitedTilesIndices();
 
   await map.runSimulation(false);
-  const originalVisitCords = map.getVisitedTilesIndices();
-  console.log(originalVisitCords);
-  map.resetMap(tiles, guard);
-
+  // const originalVisitCords = map.getVisitedTilesIndices();
+  // console.log(originalVisitCords);
+  // map.resetMap(tiles, guard);
+  // return 0;
   return 0;
 };
 

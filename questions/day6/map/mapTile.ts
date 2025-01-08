@@ -4,12 +4,12 @@ import type { GuardDirection, MapTileType } from "./day6.types";
 export class MapTile {
   type: MapTileType;
   guardVisits: number;
-  guardVisitDirection: GuardDirection | "cross";
+  lastGuardVisitDirection: GuardDirection;
 
   constructor(type: MapTileType) {
     this.type = type;
     this.guardVisits = type === "guard" ? 1 : 0;
-    this.guardVisitDirection = "up";
+    this.lastGuardVisitDirection = "up";
   }
 
   [util.inspect.custom]() {
@@ -18,9 +18,7 @@ export class MapTile {
     if (this.type === "userBlock") return "O";
     if (!this.guardVisits) return ".";
 
-    switch (this.guardVisitDirection) {
-      case "cross":
-        return "+";
+    switch (this.lastGuardVisitDirection) {
       case "left":
       case "right":
         return "-";
@@ -37,9 +35,7 @@ export class MapTile {
     if (this.type === "userBlock") return "O";
     if (!this.guardVisits) return ".";
 
-    switch (this.guardVisitDirection) {
-      case "cross":
-        return "+";
+    switch (this.lastGuardVisitDirection) {
       case "left":
       case "right":
         return "-";

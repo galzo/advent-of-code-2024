@@ -1,9 +1,9 @@
 import {
   readMultiLineInput,
   resolveInputPathForDay,
-} from "../../common/inputReader";
-import { buildMatrixFromData, Matrix } from "../../common/matrix";
-import type { Guard, MapTileType, TileCoordinates } from "./day6.types";
+} from "../../../common/inputReader";
+import { buildMatrixFromData, Matrix } from "../../../common/matrix";
+import type { Guard, MapTileType, TileCoordinates } from "../day6.types";
 import type { TopdownMap } from "./map";
 import { MapTile } from "./mapTile";
 

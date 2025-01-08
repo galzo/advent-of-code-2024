@@ -48,7 +48,10 @@ export const resolveGuardRotateDirection = (guard: Guard) => {
 };
 
 export const resolveTileVisitDirection = (tile: MapTile, guard: Guard) => {
-  if (tile.guardVisits > 0 && tile.guardVisitDirection !== guard.direction) {
+  if (
+    tile.guardVisits > 0 &&
+    tile.lastGuardVisitDirection !== guard.direction
+  ) {
     return "cross";
   }
 
